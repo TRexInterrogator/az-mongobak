@@ -9,3 +9,31 @@ Azure cloud backup solution for mongodb databases with web-gui.
 
 ## Hosting
 This application can be hosted using Docker or Azure App Service (Linux)
+
+## Configuration
+Here is a sample configuration for local debugging
+```appsettings.Development.json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.AspNetCore.SpaProxy": "Information",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "Kestrel": {
+    "Endpoints": {
+      "Http": {
+        "Url": "http://localhost:5001"
+      }
+    }
+  },
+  "AzureAd": {
+    "Instance": "",
+    "ClientId": "",
+    "TenantId": "",
+    "Audience": ""
+  }
+}
+```
