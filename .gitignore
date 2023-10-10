@@ -1,0 +1,5 @@
+.DS_Store
+appsettings*.json
+*.tar
+*.zip
+nuget.config
