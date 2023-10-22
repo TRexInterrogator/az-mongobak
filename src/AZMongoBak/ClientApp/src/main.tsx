@@ -11,7 +11,7 @@ const msal_instance = new PublicClientApplication(MsalConfig);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider colorMode="dark">
+    <ThemeProvider colorMode="light">
       <App msal={msal_instance} />
     </ThemeProvider>
   </React.StrictMode>,

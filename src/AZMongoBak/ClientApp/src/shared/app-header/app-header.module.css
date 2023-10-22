@@ -1,0 +1,29 @@
+.header {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    height: 30px;
+    user-select: none;
+}
+
+.headerRight {
+
+}
