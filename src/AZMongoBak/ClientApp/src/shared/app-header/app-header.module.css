@@ -13,6 +13,13 @@
     column-gap: 10px;
 }
 
+.headerLogo {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
 .logo {
     display: flex;
     align-items: center;
@@ -22,8 +29,4 @@
 .logo img {
     height: 30px;
     user-select: none;
-}
-
-.headerRight {
-
 }

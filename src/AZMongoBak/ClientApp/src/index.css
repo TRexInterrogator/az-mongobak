@@ -1,6 +1,7 @@
 :root {
   --app-shadow: 0 5px 15px rgb(0 0 0 / 10%);
 
+  --bg-color: #f6f8fa;
   --grey-background-color: rgb(243, 242, 241);
   --grey-background-color-02: rgba(243, 242, 241, 0.2);
   --border-color: #d0d7de;
