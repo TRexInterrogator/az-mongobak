@@ -1,9 +1,11 @@
 import { AccountInfo, IPublicClientApplication } from "@azure/msal-browser";
+import { IAppUser } from "./app-user";
+import { LoginRequest } from "./msal-config";
 
 export class APIService {
     
     public BASE = import.meta.env.DEV ? "http://localhost:5001/api" : "/api";
-    public ACCOUNT: AccountInfo | undefined;
+    public account: IAppUser | undefined;
 
     private _token = "";
     private readonly _instance: IPublicClientApplication;
@@ -14,7 +16,11 @@ export class APIService {
         this._accounts = accounts;
 
         if (accounts.length > 0) {
-            this.ACCOUNT = accounts[0];
+            this.account = {
+                displayname: accounts[0].name ? accounts[0].name : "?",
+                email: accounts[0].username,
+                oid: accounts[0].localAccountId
+            }
         }
     }
 
@@ -60,6 +66,13 @@ export class APIService {
         catch (err) {
             console.error("APIService.InitAsync", err);
             success = false;
+            
+            console.info("Removing application storage ..");
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+            
+            console.info("Retry login flow ..");
+            this._instance.loginRedirect(LoginRequest);
         }
 
         return success;

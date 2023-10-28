@@ -1,0 +1,18 @@
+.personaBtn {
+    cursor: pointer;
+}
+
+.logoutPanel {
+    position: relative;
+}
+
+.logoutPanelContent {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    background-color: white;
+    padding: 20px;
+    box-shadow: var(--app-shadow);
+    border: solid 1px var(--border-color);
+    border-radius: 4px;
+}

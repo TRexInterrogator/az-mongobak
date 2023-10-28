@@ -1,0 +1,25 @@
+.persona {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+}
+
+.altName {
+    height: 32px;
+    width: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    user-select: none;
+}
+
+.profileImg {
+    display: block;
+    height: 32px;
+    width: 32px;
+    border-radius: 10px;
+    object-fit: cover;
+}

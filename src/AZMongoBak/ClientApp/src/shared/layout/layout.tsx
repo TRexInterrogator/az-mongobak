@@ -20,7 +20,9 @@ export const Layout = (props: ILayoutProps) => {
                 <AppHeader children_right={<Account />} />
             </PageLayout.Header>
             <PageLayout.Content>
-                { props.children }
+                <div style={{ padding: "0px 24px 0px 24px" }}>
+                    { props.children }
+                </div>
             </PageLayout.Content>
         </PageLayout>
     );

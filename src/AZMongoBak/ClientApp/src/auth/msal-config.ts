@@ -1,4 +1,4 @@
-import { LogLevel } from "@azure/msal-browser";
+import { LogLevel, BrowserCacheLocation } from "@azure/msal-browser";
 
 
 export const MsalConfig = {
@@ -10,13 +10,13 @@ export const MsalConfig = {
         navigateToLoginRequestUrl: true
     },
     cache: {
-        cacheLocation: "localStorage"
+        cacheLocation: BrowserCacheLocation.LocalStorage
     },
     system: {
         windowHashTimeout: 20000,
         iframeHashTimeout: 20000,
         loggerOptions: {
-            loggerCallback: (level: number, message: string, containsPii: boolean) => {
+            loggerCallback: (level: any, message: any, containsPii: any) => {
                 if (containsPii) {
                     return;
                 }

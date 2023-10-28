@@ -1,5 +1,5 @@
 :root {
-  --app-shadow: 0 5px 15px rgb(0 0 0 / 6%);
+  --app-shadow: 0 5px 15px rgb(0 0 0 / 10%);
 
   --grey-background-color: rgb(243, 242, 241);
   --grey-background-color-02: rgba(243, 242, 241, 0.2);
