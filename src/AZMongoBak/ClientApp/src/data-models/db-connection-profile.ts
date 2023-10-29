@@ -1,3 +1,4 @@
+import { APIService } from "../auth/api-service";
 
 export interface IDBConnectionProfile {
     oid: string;
@@ -25,5 +26,29 @@ export class DBConnectionProfile implements IDBConnectionProfile {
 
     public ToDateCreatedStr(): string {
         return new Date(Date.parse(this.date_created)).toLocaleString();
+    }
+
+
+    public static async TestAdminAsync(api: APIService): Promise<boolean> {
+
+        let is_admin = false;
+
+        try {
+            if (await api.InitAsync()) {
+                const headers = api.GetHeaders();
+                const url = `${api.BASE}/connectionProfiles/testAdmin`;
+                const request = await fetch(url, { headers: headers });
+
+                if (request.ok) {
+                    const json = await request.json() as boolean;
+                    is_admin = json;
+                }
+            }
+        }
+        catch (err) {
+            console.error(err);
+        }
+
+        return is_admin;
     }
 }

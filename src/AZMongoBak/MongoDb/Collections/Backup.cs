@@ -1,6 +1,5 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using AZMongoBak.MongoDb.Meta;
 
 namespace AZMongoBak.MongoDb.Collections {
     public class Backup {
@@ -17,16 +16,13 @@ namespace AZMongoBak.MongoDb.Collections {
         [BsonElement("stored")]
         public bool stored { get; set; } = false;
 
-        [BsonElement("meta_data")]
-        public MetaData? meta_data { get; set; } = null;
 
 
         public Backup() { }
 
-        public Backup(string new_blob_path, MetaData new_meta_data) {
+        public Backup(string new_blob_path) {
             // Note: Local zip path == remote blob path
             this.blob_path = new_blob_path;
-            this.meta_data = new_meta_data;
         }
 
 

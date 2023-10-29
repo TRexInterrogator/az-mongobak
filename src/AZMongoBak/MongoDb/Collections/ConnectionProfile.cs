@@ -1,6 +1,5 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using AZMongoBak.MongoDb.Meta;
 
 
 namespace AZMongoBak.MongoDb.Collections {
@@ -8,36 +7,24 @@ namespace AZMongoBak.MongoDb.Collections {
 
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? oid { get; set; }
+        public string oid { get; set; } = null!;
 
-        [BsonElement("display_name")]
-        public string display_name { get; set; } = "";
+        [BsonElement("displayname")]
+        public string displayname { get; set; } = "";
 
-        [BsonElement("connection")]
-        public string connection { get; set; } = "";
+        [BsonElement("mongo_connection")]
+        public string mongo_connection { get; set; } = "";
 
-        [BsonElement("user_name")]
-        public string? user_name { get; set; }
-
-        [BsonElement("user_pwd")]
-        public string? user_pwd { get; set; }
-
-        [BsonElement("use_tls")]
-        public bool use_tls { get; set; } = false;
-
-        [BsonElement("auth_db")]
-        public string? auth_db { get; set; }
-
-        [BsonElement("meta_data")]
-        public MetaData? meta_data { get; set; }
+        [BsonElement("date_created")]
+        public DateTime date_created { get; set; } = DateTime.UtcNow;
 
 
         public ConnectionProfile() { }
 
 
         public bool IsValid() {
-            return !string.IsNullOrEmpty(this.display_name)
-                && !string.IsNullOrEmpty(this.connection)
+            return !string.IsNullOrEmpty(this.displayname)
+                && !string.IsNullOrEmpty(this.mongo_connection)
                 ? true : false;
         }
     }

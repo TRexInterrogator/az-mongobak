@@ -1,6 +1,5 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
-using AZMongoBak.MongoDb.Meta;
 
 namespace AZMongoBak.MongoDb.Collections {
     public class BackupInfo {
@@ -24,8 +23,9 @@ namespace AZMongoBak.MongoDb.Collections {
         [BsonElement("retention_days")]
         public int retention_days { get; set; } = 14;
 
-        [BsonElement("meta_data")]
-        public MetaData? meta_data { get; set; } = null;
+        [BsonElement("date_created")]
+        public DateTime date_created { get; set; } = DateTime.UtcNow;
+
 
 
         public BackupInfo() { }

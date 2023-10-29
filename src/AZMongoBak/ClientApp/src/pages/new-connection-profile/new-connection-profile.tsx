@@ -5,10 +5,15 @@ import { Box, Button, FormControl, Text, TextInput } from "@primer/react";
 import { CheckIcon, LinkIcon } from "@primer/octicons-react";
 import { InfoMessage } from "../../shared/messages/info-message";
 import { ErrorMessage } from "../../shared/messages/error-message";
+import { useMsal } from "@azure/msal-react";
+import { APIService } from "../../auth/api-service";
 
 export const NewConnectionProfilePage = () => {
 
     const nav = useNavigate();
+    const { instance, accounts } = useMsal();
+    const [ api ] = useState(new APIService(instance, accounts));
+
     const [ profile, setProfile ] = useState<DBConnectionProfile>(new DBConnectionProfile());
     const [ form_valid, setFormValid ] = useState(false);
     const [ is_disabled, setDisabled ] = useState(false);
@@ -40,6 +45,9 @@ export const NewConnectionProfilePage = () => {
         if (profile.IsValid()) {
             setDisabled(true);
             setCreating(true);
+
+            const is_admin = await DBConnectionProfile.TestAdminAsync(api);
+            console.log("is admin", is_admin);
 
             // TODO: implement api
 
