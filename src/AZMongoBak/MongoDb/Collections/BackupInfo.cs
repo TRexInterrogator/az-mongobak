@@ -5,8 +5,7 @@ namespace AZMongoBak.MongoDb.Collections {
     public class BackupInfo {
 
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string? oid { get; set; }
+        public string oid { get; set; } = null!;
 
         [BsonElement("display_name")]
         public string display_name { get; set; } = "";

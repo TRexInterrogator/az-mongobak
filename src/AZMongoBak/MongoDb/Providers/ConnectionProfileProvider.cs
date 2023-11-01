@@ -1,6 +1,7 @@
 using AZMongoBak;
 using AZMongoBak.MongoDb.Collections;
 using AZMongoBak.SharedServices;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace MongoDbBackup.MongoDb.Providers {
@@ -25,7 +26,7 @@ namespace MongoDbBackup.MongoDb.Providers {
 
             try {
                 if (profile.IsValid()) {
-                    profile.oid = Guid.NewGuid().ToString();
+                    profile.oid = ObjectId.GenerateNewId().ToString();
                     profile.date_created = DateTime.UtcNow;
 
                     if (this._db_service.ConnectionProfiles is not null) {

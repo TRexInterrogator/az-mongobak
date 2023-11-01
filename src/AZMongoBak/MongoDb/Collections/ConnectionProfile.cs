@@ -6,7 +6,6 @@ namespace AZMongoBak.MongoDb.Collections {
     public class ConnectionProfile {
 
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
         public string oid { get; set; } = null!;
 
         [BsonElement("displayname")]

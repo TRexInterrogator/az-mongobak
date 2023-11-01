@@ -2,6 +2,7 @@ import { PlusIcon } from "@primer/octicons-react";
 import { Button } from "@primer/react";
 import { useNavigate } from "react-router-dom";
 import { PageTitle } from "../../shared/page-title/page-title";
+import { ConnectionProfileList } from "./list/connection-profile-list";
 
 export const ConnectionProfilesPage = () => {
 
@@ -22,7 +23,9 @@ export const ConnectionProfilesPage = () => {
                 </Button>
             </div>
 
-            {/* <ConProfileList style={{ marginTop: "10px" }} /> */}
+            <div style={{ marginTop: "10px" }}>
+                <ConnectionProfileList />
+            </div>
         </div>
     );
 }

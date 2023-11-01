@@ -1,0 +1,36 @@
+
+
+.listHead {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    background-color: var(--head-color);
+    padding: 16px;
+}
+
+.listHead div[id="lr"] {
+    display: flex;
+    justify-content: space-between;
+}
+
+.listHeadTitle svg {
+    margin-right: 10px;
+}
+
+
+.listItem div[id="lr"] {
+    display: flex;
+    justify-content: space-between;
+}
+
+.listItem div[id="lr"] p[id="link"] {
+    cursor: pointer;
+}
+
+.listItem div[id="lr"] p[id="link"]:hover {
+    text-decoration: underline;
+    color: var(--primary-color);
+}
+
+.listItem div[id="lr"] p[id="link"] svg {
+    margin-right: 10px;
+}

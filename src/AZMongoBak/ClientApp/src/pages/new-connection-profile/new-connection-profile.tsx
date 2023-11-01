@@ -46,19 +46,14 @@ export const NewConnectionProfilePage = () => {
             setDisabled(true);
             setCreating(true);
 
-            const is_admin = await DBConnectionProfile.TestAdminAsync(api);
-            console.log("is admin", is_admin);
-
-            // TODO: implement api
-
-            /* const created = await profile.CreateNewProfileAsync();
+            const created = await profile.CreateAsync(api);
             
-            if (created) nav(`${ROUTE}/connection/manage`);
+            if (created) nav("/connection/manage");
             else {
                 setDisabled(false);
                 setCreating(false);
                 setError(true);
-            } */
+            }
         }
     };
 

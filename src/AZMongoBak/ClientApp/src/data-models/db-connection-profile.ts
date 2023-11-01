@@ -29,26 +29,62 @@ export class DBConnectionProfile implements IDBConnectionProfile {
     }
 
 
-    public static async TestAdminAsync(api: APIService): Promise<boolean> {
+    /**
+     * Saves this connection profile as new profile to db
+     * @param api 
+     * @returns 
+     */
+    public async CreateAsync(api: APIService): Promise<boolean> {
 
-        let is_admin = false;
+        let created = false;
 
         try {
             if (await api.InitAsync()) {
-                const headers = api.GetHeaders();
-                const url = `${api.BASE}/connectionProfiles/testAdmin`;
-                const request = await fetch(url, { headers: headers });
+                const header = api.GetHeaders();
+                const url = `${api.BASE}/connectionProfiles/new`;
+                const data = JSON.stringify(this);
+                const request = await fetch(url, { headers: header, method: "POST", body: data });
 
                 if (request.ok) {
-                    const json = await request.json() as boolean;
-                    is_admin = json;
+                    created = true;
                 }
             }
         }
         catch (err) {
-            console.error(err);
+            console.error("DBConnectionProfile.SaveAsync", err);
         }
 
-        return is_admin;
+        return created;
+    }
+
+    /**
+     * Lists all connection profiles
+     * @param api 
+     * @returns 
+     */
+    public static async ListAllAsync(api: APIService): Promise<DBConnectionProfile[]> {
+
+        let profiles: DBConnectionProfile[] = [];
+
+        try {
+            if (await api.InitAsync()) {
+                const headers = api.GetHeaders();
+                const url = `${api.BASE}/connectionProfiles/list`;
+                const request = await fetch(url, { headers: headers });
+
+                if (request.ok) {
+                    const json = await request.json() as IDBConnectionProfile[];
+
+                    if (json) {
+                        profiles = json.map(p => DBConnectionProfile.CreateInstance(p));
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.error("DBConnectionProfile.ListAllAsync", err);
+        }
+
+        return profiles;
     }
 }
