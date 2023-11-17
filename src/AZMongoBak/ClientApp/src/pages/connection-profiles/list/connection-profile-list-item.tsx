@@ -24,7 +24,7 @@ export const ConnectionProfileListItem = (props: IConnectionProfileListItemProps
                 <Text 
                     as="p" 
                     id="link" 
-                    onClick={() => nav("/connection/edit", { state: profile.oid })}>
+                    onClick={() => nav("/connection/edit", { state: profile })}>
                         <ArrowBothIcon />
                         { profile.displayname }
                 </Text>
