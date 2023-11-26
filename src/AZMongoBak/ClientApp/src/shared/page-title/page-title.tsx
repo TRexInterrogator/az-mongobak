@@ -1,24 +1,29 @@
-import { Box } from "@primer/react";
+import { Box, Text } from "@primer/react";
 import { CSSProperties, ReactNode } from "react"
 
 interface IPageTitleProps {
     style?: CSSProperties;
     children?: ReactNode;
+    icon?: ReactNode;
+    description?: string;
 }
 
 export const PageTitle = (props: IPageTitleProps) => {
 
-    const { children, style } = props;
+    const { children, style, icon, description } = props;
 
     return (
         <Box 
             style={style}
-            mt="30px"
-            mb="10px"
-            fontWeight={600}
-            fontSize={30}
-            pb="3">
-            {children}
+            mt="30px">
+            <div>
+                { icon }
+                <Text as="h1">{children}</Text>
+
+                { description &&
+                    <Text as="p">{description}</Text>
+                }
+            </div>
         </Box>
     );
 }

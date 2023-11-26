@@ -10,13 +10,13 @@ export const LandingPage = () => {
 
     return (
         <div>
-            <PageTitle>
+            <PageTitle style={{ marginBottom: "20px" }}>
                 Getting started
             </PageTitle>
 
             <ActionList>
                 <ActionList.LinkItem 
-                    style={{ margin: "2px 0px", fontWeight: "600" }} 
+                    style={{ fontWeight: "600" }} 
                     onClick={() => nav("/database/new")}>
                         <ActionList.LeadingVisual>
                             <DatabaseIcon />
@@ -25,7 +25,7 @@ export const LandingPage = () => {
                 </ActionList.LinkItem>
 
                 <ActionList.LinkItem 
-                    style={{ margin: "2px 0px", fontWeight: "600" }} 
+                    style={{ fontWeight: "600" }} 
                     onClick={() => nav("/connection/manage")}>
                         <ActionList.LeadingVisual>
                             <LinkIcon />

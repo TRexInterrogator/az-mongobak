@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { DBConnectionProfile } from "../../data-models/db-connection-profile";
-import { Box, Button, FormControl, Text, TextInput } from "@primer/react";
+import { Box, Button, FormControl, TextInput } from "@primer/react";
 import { CheckIcon, LinkIcon } from "@primer/octicons-react";
 import { InfoMessage } from "../../shared/messages/info-message";
 import { ErrorMessage } from "../../shared/messages/error-message";
 import { useMsal } from "@azure/msal-react";
 import { APIService } from "../../auth/api-service";
+import { PageTitle } from "../../shared/page-title/page-title";
 
 export const NewConnectionProfilePage = () => {
 
@@ -60,11 +61,12 @@ export const NewConnectionProfilePage = () => {
     return (
         <div>
             <Box mt="20px" >
-                <div style={{ marginBottom: "30px" }}>
-                    <LinkIcon size={24} />
-                    <Text as="h1">New connection profile</Text>
-                    <Text as="p">Create connection profiles for you database servers.</Text>
-                </div>
+                <PageTitle
+                    style={{ marginBottom: "30px" }}
+                    description="Create connection profiles for you database servers"
+                    icon={<LinkIcon size={24} />}>
+                    New connection profile
+                </PageTitle>
 
                 <FormControl disabled={is_disabled}>
                     <FormControl.Label>Connection name:</FormControl.Label>

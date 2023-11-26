@@ -1,4 +1,5 @@
 using AZMongoBak;
+using AZMongoBak.BackupJobs;
 using AZMongoBak.MongoDb.Collections;
 using AZMongoBak.SharedServices;
 using MongoDB.Bson;
@@ -160,7 +161,7 @@ namespace MongoDbBackup.MongoDb.Providers {
         /// </summary>
         /// <param name="connection">DB Connection profile</param>
         /// <returns>string[]</returns>
-        /* public async Task<List<string>> ListDbsForConnection(string? profile_oid) {
+        public async Task<List<string>> ListDbsForConnection(string profile_oid) {
 
             var db_names = new List<string>();
 
@@ -169,16 +170,16 @@ namespace MongoDbBackup.MongoDb.Providers {
                     var profile = await this.GetProfileAsync(profile_oid);
 
                     if (profile is not null) {
-                        var backup_provider = new BackupJobProvider(profile, null, null);
-                        db_names = await backup_provider.ListDatabasesNamesAsync();
+                        var backup_service = new BackupJobService(profile, this._logger);
+                        db_names = await backup_service.ListDbsAsync();
                     }
                 }
             }
             catch (Exception ex) {
-                DockerLogger.LogError(ex);
+                this._logger.LogError(EventIds.Database, ex, "Failed to list dbs for connection");
             }
 
             return db_names;
-        } */
+        }
     }
 }

@@ -77,5 +77,17 @@ namespace AZMongoBak.Controllers {
             var updated = await this._conprof_prov.UpdateProfileAsync(profile);
             return updated is not null ? this.Ok(updated) : this.BadRequest();
         }
+
+
+        /// <summary>
+        /// Returns list of all dbs for given connection profile
+        /// </summary>
+        /// <param name="oid">connection oid</param>
+        /// <returns>string[]</returns>
+        [HttpGet("listDbs")]
+        public async Task<IActionResult> GetDbNamesForConnectionAsync([FromQuery(Name = "oid")] string oid) {
+            var db_names = await this._conprof_prov.ListDbsForConnection(oid);
+            return this.Ok(db_names);
+        }
     }
 }

@@ -8,6 +8,7 @@ import { ConnectionProfilesPage } from "./pages/connection-profiles/connection-p
 import { NewConnectionProfilePage } from "./pages/new-connection-profile/new-connection-profile";
 import { AdminAuth } from "./auth/admin-auth/admin-auth";
 import { EditConnectionProfilePage } from "./pages/edit-connection-profile/edit-connection-profile-page";
+import { NewDataBasePage } from "./pages/new-database/new-database-page";
 
 
 interface IAppProps {
@@ -29,6 +30,7 @@ export const App = (props: IAppProps) => {
                             <Route path="/connection/manage" element={<ConnectionProfilesPage />} />
                             <Route path="/connection/new" element={<NewConnectionProfilePage />} />
                             <Route path="/connection/edit" element={<EditConnectionProfilePage />} />
+                            <Route path="/database/new" element={<NewDataBasePage />} />
                         </Routes>
                     </Layout>
                 </AdminAuth>

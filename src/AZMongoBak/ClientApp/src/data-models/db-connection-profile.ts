@@ -152,4 +152,37 @@ export class DBConnectionProfile implements IDBConnectionProfile {
 
         return deleted;
     }
+
+    /**
+     * Lists db names for current connection
+     * @param api 
+     * @returns 
+     */
+    public async ListDbsAsync(api: APIService): Promise<string[]> {
+
+        let db_names: string[] = [];
+
+        try {
+            if (this.oid) {
+                if (await api.InitAsync()) {
+                    const url = `${api.BASE}/connectionProfiles/listDbs?oid=${this.oid}`;
+                    const headers = api.GetHeaders();
+                    const request = await fetch(url, { headers: headers });
+
+                    if (request.ok) {
+                        const json = await request.json() as string[];
+
+                        if (json) {
+                            db_names = json;
+                        }
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.error("DBConnectionProfile.ListDbsAsync", err);
+        }
+
+        return db_names;
+    }
 }
