@@ -87,4 +87,69 @@ export class DBConnectionProfile implements IDBConnectionProfile {
 
         return profiles;
     }
+
+    
+    /**
+     * Updates current connection profile
+     * @param api 
+     * @returns 
+     */
+    public async UpdateAsync(api: APIService): Promise<DBConnectionProfile | null> {
+
+        let update: DBConnectionProfile | null = null;
+
+        try {
+            if (this.oid) {
+                if (await api.InitAsync()) {
+                    const headers = api.GetHeaders();
+                    const url = `${api.BASE}/connectionProfiles/profile`;
+                    const data = JSON.stringify(this);
+                    const request = await fetch(url, { headers: headers, method: "PATCH", body: data });
+
+                    if (request.ok) {
+                        const json = await request.json() as IDBConnectionProfile;
+
+                        if (json) {
+                            update = DBConnectionProfile.CreateInstance(json);
+                        }
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.error("DBConnectionProfile.UpdateAsync", err);
+        }
+
+        return update;
+    }
+
+
+    /**
+     * Deletes current connection profile
+     * @param api 
+     * @returns 
+     */
+    public async DeleteAsync(api: APIService): Promise<boolean> {
+
+        let deleted = false;
+
+        try {
+            if (this.oid) {
+                if (await api.InitAsync()) {
+                    const headers = api.GetHeaders();
+                    const url = `${api.BASE}/connectionProfiles/profile?oid=${this.oid}`;
+                    const request = await fetch(url, { headers: headers, method: "DELETE" });
+
+                    if (request.ok) {
+                        deleted = true;
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.error("DBConnectionProfile.DeleteAsync", err);
+        }
+
+        return deleted;
+    }
 }

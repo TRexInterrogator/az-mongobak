@@ -27,8 +27,8 @@ export const App = (props: IAppProps) => {
                         <Routes>
                             <Route path="/" element={<LandingPage />} />
                             <Route path="/connection/manage" element={<ConnectionProfilesPage />} />
-                            <Route path={"/connection/new"} element={<NewConnectionProfilePage />} />
-                            <Route path={"/connection/edit"} element={<EditConnectionProfilePage />} />
+                            <Route path="/connection/new" element={<NewConnectionProfilePage />} />
+                            <Route path="/connection/edit" element={<EditConnectionProfilePage />} />
                         </Routes>
                     </Layout>
                 </AdminAuth>
