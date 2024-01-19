@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { APIService } from "../../../auth/api-service";
 import { DBConnectionProfile } from "../../../data-models/db-connection-profile";
-import { ActionList, ActionMenu } from "@primer/react";
+import { ActionList, ActionMenu, Text } from "@primer/react";
 import { LinkIcon } from "@primer/octicons-react";
 
 interface IConnectionProfileSelectProps {
@@ -28,7 +28,10 @@ export const ConnectionProfileSelect = (props: IConnectionProfileSelectProps) =>
     };
 
     return (
-        <div style={{ marginTop: "30px" }}>
+        <div>
+            <Text as="p">
+                Connection profile:
+            </Text>
             <ActionMenu>
                 { selectedProfile ?
                     <ActionMenu.Button 

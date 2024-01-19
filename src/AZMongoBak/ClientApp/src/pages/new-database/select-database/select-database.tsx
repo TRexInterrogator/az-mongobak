@@ -1,5 +1,5 @@
 import { DatabaseIcon } from "@primer/octicons-react";
-import { ActionMenu } from "@primer/react";
+import { ActionList, ActionMenu, Text } from "@primer/react";
 import { useState } from "react";
 
 interface IDatabaseSelectProps {
@@ -8,28 +8,36 @@ interface IDatabaseSelectProps {
     onChange: (db: string) => void;
 }
 
-// TODO: Finish database select
-
 export const DatabaseSelect = (props: IDatabaseSelectProps) => {
 
     const { dbs, disabled, onChange } = props;
     const [ selected_db, setSelectedDb ] = useState<string>();
 
+    const HandleOnDbChanged = (new_db: string) => {
+        if (!disabled) {
+            setSelectedDb(new_db);
+            onChange(new_db);
+        }
+    };
+
     return (
         <div>
+            <Text as="p">
+                Database:
+            </Text>
             <ActionMenu>
                 { selected_db ?
                     <ActionMenu.Button leadingIcon={DatabaseIcon}>
                         {selected_db}
                     </ActionMenu.Button>
                     :
-                    <ActionMenu.Button>Database</ActionMenu.Button>
+                    <ActionMenu.Button>Select database</ActionMenu.Button>
                 }
                 
                 <ActionMenu.Overlay>
-                    { db_names &&
+                    { dbs &&
                         <ActionList>
-                            { db_names.map(name => {
+                            { dbs.map(name => {
                                 return (
                                     <ActionList.Item 
                                         onSelect={() => HandleOnDbChanged(name)}
