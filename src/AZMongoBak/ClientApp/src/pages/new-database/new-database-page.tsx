@@ -7,6 +7,7 @@ import { APIService } from "../../auth/api-service";
 import { useState } from "react";
 import { DBConnectionProfile } from "../../data-models/db-connection-profile";
 import { DatabaseSelect } from "./select-database/select-database";
+import { BackupInfo } from "../../data-models/db-models";
 
 // TODO: Work on database connection form
 
@@ -24,6 +25,16 @@ export const NewDataBasePage = () => {
 
     const HandleOnProfileChanged = async (profile: DBConnectionProfile) => {
         setDbNames(await profile.ListDbsAsync(api));
+    };
+
+    const HandleOnSave = () => {
+        setFormDisabled(true);
+        setValidationResult(undefined);
+
+        const backup_info = new BackupInfo();
+        backup_info.display_name = friendly_name ?? "";
+        backup_info.retention_days = retention;
+        console.error("Not implemented");
     };
     
 
@@ -99,6 +110,7 @@ export const NewDataBasePage = () => {
                     </FormControl>
 
                     <Button 
+                        onClick={HandleOnSave}
                         size="large"
                         style={{ marginTop: "20px" }}
                         leadingIcon={() => <CheckIcon size={20} />}

@@ -1,0 +1,8 @@
+bin/
+obj/
+*tar
+ClientApp/.env.local
+ClientApp/.env
+AZMongoBak.sln
+run-docker-build.sh
+appsettings.Development.json
