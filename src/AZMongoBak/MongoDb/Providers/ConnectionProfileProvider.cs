@@ -1,11 +1,10 @@
-using AZMongoBak;
 using AZMongoBak.BackupJobs;
 using AZMongoBak.MongoDb.Collections;
 using AZMongoBak.SharedServices;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace MongoDbBackup.MongoDb.Providers {
+namespace AZMongoBak.MongoDb.Providers {
     public class ConnectionProfileProvider {
         private readonly DbService _db_service;
         private readonly ILogger _logger;

@@ -22,19 +22,49 @@ export const NewDataBasePage = () => {
     const [ selected_db, setSelectedDb ] = useState<string>();
     const [ friendly_name, setFriendlyName ] = useState<string>();
     const [ retention, setRetention ] = useState(10);
+    const [ selected_conn, setSelectedConn ] = useState<string>();
 
     const HandleOnProfileChanged = async (profile: DBConnectionProfile) => {
+        setSelectedConn(profile.oid);
         setDbNames(await profile.ListDbsAsync(api));
     };
 
-    const HandleOnSave = () => {
+    const HandleOnSave = async () => {
         setFormDisabled(true);
         setValidationResult(undefined);
+        let is_valid = true;
 
-        const backup_info = new BackupInfo();
-        backup_info.display_name = friendly_name ?? "";
-        backup_info.retention_days = retention;
-        console.error("Not implemented");
+        if (!friendly_name) {
+            setValidationResult("noName");
+            is_valid = false;
+        }
+
+        if (retention === 0) {
+            setValidationResult("noRetention");
+            is_valid = false;
+        }
+
+        if (retention < 0) {
+            setValidationResult("noRetentionNeg");
+            is_valid = false;
+        }
+
+        if (is_valid) {
+            const backup_info = new BackupInfo();
+            backup_info.display_name = friendly_name ?? "";
+            backup_info.retention_days = retention;
+            backup_info.database = selected_db!;
+            backup_info.connection_profile = selected_conn!;
+            
+            const saved = await backup_info.SaveAsync(api);
+
+            if (saved) {
+                console.info("saved", saved);
+            }
+        }
+        else {
+            setFormDisabled(false);
+        }
     };
     
 

@@ -35,9 +35,9 @@ export const ConnectionProfileSelect = (props: IConnectionProfileSelectProps) =>
             <ActionMenu>
                 { selectedProfile ?
                     <ActionMenu.Button 
-                    disabled={disabled}
-                    leadingIcon={LinkIcon}>
-                        {selectedProfile.displayname}
+                        disabled={disabled}
+                        leadingIcon={LinkIcon}>
+                            {selectedProfile.displayname}
                     </ActionMenu.Button>
                     :
                     <ActionMenu.Button disabled={disabled}>

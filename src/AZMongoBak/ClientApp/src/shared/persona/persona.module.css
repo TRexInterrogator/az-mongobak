@@ -20,6 +20,6 @@
     display: block;
     height: 32px;
     width: 32px;
-    border-radius: 10px;
+    border-radius: 50%;
     object-fit: cover;
 }

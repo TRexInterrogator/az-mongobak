@@ -27,11 +27,15 @@ export const DatabaseSelect = (props: IDatabaseSelectProps) => {
             </Text>
             <ActionMenu>
                 { selected_db ?
-                    <ActionMenu.Button leadingIcon={DatabaseIcon}>
+                    <ActionMenu.Button 
+                        disabled={disabled}
+                        leadingIcon={DatabaseIcon}>
                         {selected_db}
                     </ActionMenu.Button>
                     :
-                    <ActionMenu.Button>Select database</ActionMenu.Button>
+                    <ActionMenu.Button disabled={disabled}>
+                        Select database
+                    </ActionMenu.Button>
                 }
                 
                 <ActionMenu.Overlay>
