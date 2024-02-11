@@ -1,8 +1,8 @@
 import { DatabaseIcon, LinkIcon } from "@primer/octicons-react";
 import { ActionList } from "@primer/react";
 import { useNavigate } from "react-router-dom";
-import { LandingPageDocs } from "./landing-page-docs";
 import { PageTitle } from "../../shared/page-title/page-title";
+import { LandingPageDocs } from "./landing-page-docs";
 
 export const LandingPage = () => {
 

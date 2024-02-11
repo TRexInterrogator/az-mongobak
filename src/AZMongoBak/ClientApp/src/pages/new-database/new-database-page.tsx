@@ -4,16 +4,20 @@ import { CheckIcon, DatabaseIcon } from "@primer/octicons-react";
 import { ConnectionProfileSelect } from "./select-connection/select-connection";
 import { useMsal } from "@azure/msal-react";
 import { APIService } from "../../auth/api-service";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DBConnectionProfile } from "../../data-models/db-connection-profile";
 import { DatabaseSelect } from "./select-database/select-database";
 import { BackupInfo } from "../../data-models/db-models";
+import { MiniBackupInfoContext } from "../../shared/mini-backup-context/mini-backup-context";
+import { MiniBackupInfo } from "../../data-models/mini-backup-info";
 
 // TODO: Work on database connection form
 
 export const NewDataBasePage = () => {
 
     const { instance, accounts } = useMsal();
+    const context = useContext(MiniBackupInfoContext);
+
     const [ api ] = useState(new APIService(instance, accounts));
     const [ form_disabled, setFormDisabled ] = useState(false);
     const [ db_names, setDbNames ] = useState<string[]>();
@@ -60,6 +64,10 @@ export const NewDataBasePage = () => {
 
             if (saved) {
                 console.info("saved", saved);
+
+                // Update sidebar
+                const mini_infos = await MiniBackupInfo.ListAsync(api);
+                context.update(mini_infos);
             }
         }
         else {

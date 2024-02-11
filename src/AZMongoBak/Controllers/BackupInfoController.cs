@@ -54,5 +54,16 @@ namespace AZMongoBak.Controllers {
             var success = await this._info_provider.DeleteAsync(oid);
             return success ? this.NoContent() : this.BadRequest();
         }
+
+        
+        /// <summary>
+        /// Returns minimal db backup info data for links on side pane
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("list-mini")]
+        public async Task<IActionResult> GetMiniDbInfosAsync() {
+            var infos = await this._info_provider.ListMiniInfoAsync();
+            return this.Ok(infos);
+        }
     }
 }

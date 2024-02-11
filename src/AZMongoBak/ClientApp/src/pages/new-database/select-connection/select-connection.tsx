@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { LinkIcon } from "@primer/octicons-react";
+import { ActionList, ActionMenu, Text } from "@primer/react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { APIService } from "../../../auth/api-service";
 import { DBConnectionProfile } from "../../../data-models/db-connection-profile";
-import { ActionList, ActionMenu, Text } from "@primer/react";
-import { LinkIcon } from "@primer/octicons-react";
 
 interface IConnectionProfileSelectProps {
     disabled?: boolean;
@@ -13,14 +14,18 @@ interface IConnectionProfileSelectProps {
 export const ConnectionProfileSelect = (props: IConnectionProfileSelectProps) => {
 
     const { disabled, api, onChange } = props;
-    const [ profiles, setProfiles ] = useState<DBConnectionProfile[]>();
     const [ selectedProfile, setProfile ] = useState<DBConnectionProfile>();
 
-    useEffect(() => {
-        (async () => {
-            setProfiles(await DBConnectionProfile.ListAllAsync(api));
-        })();
-    }, [ api ]);
+    const { data } = useQuery({
+        queryKey: ["conprof_sel"],
+        queryFn: async () => {
+            const data = await DBConnectionProfile.ListAllAsync(api);
+
+            return {
+                profiles: data
+            }
+        }
+    });
 
     const HandleOnProfileSelected = (profile: DBConnectionProfile) => {
         setProfile(profile);
@@ -46,9 +51,9 @@ export const ConnectionProfileSelect = (props: IConnectionProfileSelectProps) =>
                 }
 
                 <ActionMenu.Overlay>
-                    { profiles &&
+                    { data &&
                         <ActionList>
-                            { profiles.map(p => {
+                            { data.profiles.map(p => {
                                 return (
                                     <ActionList.Item 
                                     onSelect={() => HandleOnProfileSelected(p)}

@@ -9,6 +9,7 @@ import { NewConnectionProfilePage } from "./pages/new-connection-profile/new-con
 import { AdminAuth } from "./auth/admin-auth/admin-auth";
 import { EditConnectionProfilePage } from "./pages/edit-connection-profile/edit-connection-profile-page";
 import { NewDataBasePage } from "./pages/new-database/new-database-page";
+import { MiniBackupInfoProvider } from "./shared/mini-backup-context/mini-backup-context-provider";
 
 
 interface IAppProps {
@@ -24,15 +25,18 @@ export const App = (props: IAppProps) => {
             </UnauthenticatedTemplate>
             <AuthenticatedTemplate>
                 <AdminAuth>
-                    <Layout>
-                        <Routes>
-                            <Route path="/" element={<LandingPage />} />
-                            <Route path="/connection/manage" element={<ConnectionProfilesPage />} />
-                            <Route path="/connection/new" element={<NewConnectionProfilePage />} />
-                            <Route path="/connection/edit" element={<EditConnectionProfilePage />} />
-                            <Route path="/database/new" element={<NewDataBasePage />} />
-                        </Routes>
-                    </Layout>
+                    <MiniBackupInfoProvider>
+                        <Layout>
+                            <Routes>
+                                <Route path="/" element={<LandingPage />} />
+                                <Route path="/connection/manage" element={<ConnectionProfilesPage />} />
+                                <Route path="/connection/new" element={<NewConnectionProfilePage />} />
+                                <Route path="/connection/edit" element={<EditConnectionProfilePage />} />
+                                <Route path="/database/new" element={<NewDataBasePage />} />
+                                <Route path="/database/manage" element={<NewDataBasePage />} />
+                            </Routes>
+                        </Layout>
+                    </MiniBackupInfoProvider>
                 </AdminAuth>
             </AuthenticatedTemplate>
         </MsalProvider>

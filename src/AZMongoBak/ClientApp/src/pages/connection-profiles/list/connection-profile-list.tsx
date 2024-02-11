@@ -1,25 +1,28 @@
+import { useMsal } from "@azure/msal-react";
 import { LinkIcon } from "@primer/octicons-react";
 import { Box, Text } from "@primer/react";
-import css from "./list.module.css";
-import { useEffect, useState } from "react";
-import { DBConnectionProfile } from "../../../data-models/db-connection-profile";
-import { useMsal } from "@azure/msal-react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import { APIService } from "../../../auth/api-service";
+import { DBConnectionProfile } from "../../../data-models/db-connection-profile";
 import { ConnectionProfileListItem } from "./connection-profile-list-item";
+import css from "./list.module.css";
 
 export const ConnectionProfileList = () => {
 
     const { instance, accounts } = useMsal();
     const [ api ] = useState(new APIService(instance, accounts));
-    const [ profiles, setProfiles ] = useState<DBConnectionProfile[]>([]);
 
-    useEffect(() => {
-        (async () => {
+    const { data } = useQuery({
+        queryKey: ["conprof_list"],
+        queryFn: async () => {
             const profile_data = await DBConnectionProfile.ListAllAsync(api);
-            setProfiles(profile_data);
-        })();
-    }, []);
 
+            return {
+                profiles: profile_data
+            }
+        }
+    });
 
     return (
         <Box   
@@ -39,19 +42,25 @@ export const ConnectionProfileList = () => {
                         <LinkIcon />
                         Connection profiles:
                     </Text>
-                    <Text as="p">
-                        <b>{profiles.length}</b>
-                    </Text>
+                    { data &&
+                        <Text as="p">
+                            <b>{data.profiles.length}</b>
+                        </Text>
+                    }
                 </div>
             </Box>
-
-            { profiles.map(p => {
-                return (
-                    <ConnectionProfileListItem 
-                        key={p.oid} 
-                        profile={p} />
-                );
-            })
+            
+            { data &&
+                <>
+                { data.profiles.map(p => {
+                    return (
+                        <ConnectionProfileListItem 
+                            key={p.oid} 
+                            profile={p} />
+                    );
+                })
+                }
+                </>
             }
         </Box>
     );

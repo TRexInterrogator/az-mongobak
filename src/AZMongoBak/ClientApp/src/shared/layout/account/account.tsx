@@ -1,29 +1,30 @@
 import { useMsal } from "@azure/msal-react";
-import { useEffect, useState } from "react";
-import { APIService } from "../../../auth/api-service";
-import { FetchUserPhotoAsync } from "./account-helper";
-import { Persona } from "../../persona/persona";
-import css from "./account.module.css";
-import { Button } from "@primer/react";
 import { SignOutIcon } from "@primer/octicons-react";
+import { Button } from "@primer/react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { APIService } from "../../../auth/api-service";
+import { Persona } from "../../persona/persona";
+import { FetchUserPhotoAsync } from "./account-helper";
+import css from "./account.module.css";
 
 export const Account = () => {
 
     const { instance, accounts } = useMsal();
     const [ api ] = useState(new APIService(instance, accounts));
-    const [ profile_img, setProfileImg ] = useState<string>();
-    const [ is_loading, setLoading ] = useState(true);
     const [ is_open, setOpen ] = useState(false);
 
-    useEffect(() => {
-        if (is_loading) {
-            (async () => {
-                const img_data = await FetchUserPhotoAsync(api);
-                if (img_data) setProfileImg(img_data);
-                setLoading(false);
-            })();
+    const { data } = useQuery({
+        queryKey: ["accountpic"],
+        queryFn: async () => {
+            const img_data = await FetchUserPhotoAsync(api);
+
+            return {
+                img: img_data ?? undefined
+            }
         }
-    }, [ api ]);
+    });
+
 
     const HandleOnSignOut = () => {
         localStorage.clear();
@@ -33,14 +34,14 @@ export const Account = () => {
 
     return (
         <>
-        { !is_loading &&
+        { data &&
             <>
             <div
                 onClick={() => setOpen(!is_open)} 
                 className={css.personaBtn}>
                 <Persona
                     with_name
-                    img={profile_img}
+                    img={data.img}
                     name={api.account ? api.account.displayname : ""} />
             </div>
 

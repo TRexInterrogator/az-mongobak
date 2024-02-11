@@ -1,3 +1,4 @@
+using AZMongoBak.Models;
 using AZMongoBak.MongoDb.Collections;
 using AZMongoBak.SharedServices;
 using MongoDB.Bson;
@@ -123,6 +124,32 @@ namespace AZMongoBak.MongoDb.Providers {
             }
 
             return deleted;   
+        }
+
+
+        /// <summary>
+        /// Returns minimal db backup info data for links on side pane
+        /// </summary>
+        /// <returns>MiniBackupInfo[]</returns>
+        public async Task<List<MiniBackupInfo>> ListMiniInfoAsync() {
+
+            var infos = new List<MiniBackupInfo>();
+
+            try {
+                if (this._db_service.BackupInfos is not null) {
+                    var db_infos = await this._db_service.BackupInfos
+                        .Find(_ => true)
+                        .SortBy(e => e.display_name)
+                        .ToListAsync();
+
+                    infos = db_infos.Select(e => new MiniBackupInfo(e)).ToList();
+                }
+            }
+            catch (Exception ex) {
+                this._logger.LogError(EventIds.BackupService, ex, "Failed to list mini backup info");
+            }
+
+            return infos;
         }
     }
 }

@@ -25,7 +25,7 @@ export const Layout = (props: ILayoutProps) => {
                     { props.children }
                 </div>
             </PageLayout.Content>
-            <PageLayout.Pane>
+            <PageLayout.Pane width="large">
                 <div style={{ padding: "0px 24px 0px 24px" }}>
                     <DatabasePane />
                 </div>
