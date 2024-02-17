@@ -10,6 +10,7 @@ import { AdminAuth } from "./auth/admin-auth/admin-auth";
 import { EditConnectionProfilePage } from "./pages/edit-connection-profile/edit-connection-profile-page";
 import { NewDataBasePage } from "./pages/new-database/new-database-page";
 import { MiniBackupInfoProvider } from "./shared/mini-backup-context/mini-backup-context-provider";
+import { DatabasePage } from "./pages/database-page/database-page";
 
 
 interface IAppProps {
@@ -33,7 +34,7 @@ export const App = (props: IAppProps) => {
                                 <Route path="/connection/new" element={<NewConnectionProfilePage />} />
                                 <Route path="/connection/edit" element={<EditConnectionProfilePage />} />
                                 <Route path="/database/new" element={<NewDataBasePage />} />
-                                <Route path="/database/manage" element={<NewDataBasePage />} />
+                                <Route path="/database/manage" element={<DatabasePage />} />
                             </Routes>
                         </Layout>
                     </MiniBackupInfoProvider>

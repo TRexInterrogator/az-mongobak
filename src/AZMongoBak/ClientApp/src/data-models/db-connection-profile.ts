@@ -185,4 +185,36 @@ export class DBConnectionProfile implements IDBConnectionProfile {
 
         return db_names;
     }
+
+    /**
+     * Gets connection profile by given con-oid
+     * @param oid 
+     * @param api 
+     * @returns 
+     */
+    public static async GetAsync(oid: string, api: APIService): Promise<DBConnectionProfile | null> {
+
+        let profile: DBConnectionProfile | null = null;
+
+        try {
+            if (await api.InitAsync()) {
+                const url = `${api.BASE}/connectionProfiles/byoid?oid=${oid}`;
+                const headers = api.GetHeaders();
+                const request = await fetch(url, { headers: headers });
+
+                if (request.ok) {
+                    const json = await request.json() as IDBConnectionProfile;
+
+                    if (json) {
+                        profile = DBConnectionProfile.CreateInstance(json);
+                    }
+                }
+            }
+        }
+        catch (err) {
+            console.error("DBConnectionProfile.GetAsync", err);
+        }
+
+        return profile;
+    }
 }
