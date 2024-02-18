@@ -169,7 +169,7 @@ namespace AZMongoBak.MongoDb.Providers {
                     var profile = await this.GetProfileAsync(profile_oid);
 
                     if (profile is not null) {
-                        var backup_service = new BackupJobService(profile, this._logger);
+                        var backup_service = new DbConnectionService(profile, this._logger);
                         db_names = await backup_service.ListDbsAsync();
                     }
                 }

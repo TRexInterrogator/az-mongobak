@@ -2,13 +2,11 @@ using AZMongoBak.MongoDb.Collections;
 using MongoDB.Driver;
 
 namespace AZMongoBak.BackupJobs {
-    public class BackupJobService {
-        private readonly ConnectionProfile _connection_profile;
+    public class DbConnectionService {
         private readonly IMongoClient _db_client;
         private readonly ILogger _logger;
 
-        public BackupJobService(ConnectionProfile profile, ILogger logger) {
-            this._connection_profile = profile;
+        public DbConnectionService(ConnectionProfile profile, ILogger logger) {
             this._logger = logger;
             this._db_client = new MongoClient(profile.mongo_connection);
         }

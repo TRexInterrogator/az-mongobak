@@ -6,3 +6,4 @@ ClientApp/.env
 AZMongoBak.sln
 run-docker-build.sh
 appsettings.Development.json
+backups/

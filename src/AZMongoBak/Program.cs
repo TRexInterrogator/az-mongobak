@@ -1,3 +1,4 @@
+using AZMongoBak.BackgroundServices;
 using AZMongoBak.SharedServices;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
@@ -20,8 +21,17 @@ builder.Services.AddSingleton(admin_service);
 builder.Services.AddSingleton(new DbService(app_config));
 builder.Services.AddSingleton(new GraphService(app_config));
 
+// Restore backups folder
+const string _bak_dir = "./Backups";
+if (Directory.Exists(_bak_dir)) Directory.Delete(_bak_dir, true);
+Directory.CreateDirectory(_bak_dir);
+
 // Configure App-Reg
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+// Background queue
+builder.Services.AddHostedService<QueueMonitorHostedService>();
+builder.Services.AddSingleton<IBackgroundTaskQueue>(x => new BackgroundTaskQueue(200));
 
 // CORS policy config
 builder.Services.AddCors(options => {
