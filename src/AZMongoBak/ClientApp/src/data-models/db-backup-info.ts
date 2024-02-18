@@ -28,6 +28,18 @@ export class BackupInfo implements IBackupInfo {
 		return instance;
 	}
 
+	public ToDateCreatedStr(): string {
+		return new Date(Date.parse(this.date_created)).toLocaleString();
+	}
+
+	public ToTotalBackups(): number {
+		return this.backups.length;
+	}
+
+	public ToTotalBackupsStored(): number {
+		return this.backups.filter(e => e.stored).length;
+	}
+
 	/**
 	 * Saves current item to database (creates new if oid empty)
 	 * @param api 

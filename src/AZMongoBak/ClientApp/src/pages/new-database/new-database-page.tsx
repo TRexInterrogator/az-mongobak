@@ -10,13 +10,14 @@ import { DatabaseSelect } from "./select-database/select-database";
 import { BackupInfo } from "../../data-models/db-models";
 import { MiniBackupInfoContext } from "../../shared/mini-backup-context/mini-backup-context";
 import { MiniBackupInfo } from "../../data-models/mini-backup-info";
+import { useNavigate } from "react-router-dom";
 
-// TODO: Work on database connection form
 
 export const NewDataBasePage = () => {
 
     const { instance, accounts } = useMsal();
     const context = useContext(MiniBackupInfoContext);
+    const nav = useNavigate();
 
     const [ api ] = useState(new APIService(instance, accounts));
     const [ form_disabled, setFormDisabled ] = useState(false);
@@ -63,11 +64,12 @@ export const NewDataBasePage = () => {
             const saved = await backup_info.SaveAsync(api);
 
             if (saved) {
-                console.info("saved", saved);
-
                 // Update sidebar
                 const mini_infos = await MiniBackupInfo.ListAsync(api);
                 context.update(mini_infos);
+
+                // Navigate to database page
+                nav(`/database/manage?oid=${saved.oid}`);
             }
         }
         else {

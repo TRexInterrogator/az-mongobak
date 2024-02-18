@@ -1,12 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
-import { useLocation } from "react-router-dom";
-import { BackupInfo } from "../../data-models/db-models";
 import { useMsal } from "@azure/msal-react";
+import { Spinner } from "@primer/react";
+import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { APIService } from "../../auth/api-service";
 import { DBConnectionProfile } from "../../data-models/db-connection-profile";
+import { BackupInfo } from "../../data-models/db-models";
 import { DatabaseContext } from "./database-context";
-import { Spinner } from "@primer/react";
-import { useEffect } from "react";
 
 
 export type TDatabasePageData = {
@@ -21,8 +21,8 @@ export const DatabasePage = () => {
 
     const { data, isLoading, refetch } = useQuery({
         queryKey: ["database-page"],
+        refetchOnMount: false,
         queryFn: async () => {
-            console.log("refetch");
             const page_data: TDatabasePageData = {};
             const db_oid = new URLSearchParams(loc.search).get("oid");
 
@@ -45,9 +45,10 @@ export const DatabasePage = () => {
     });
 
     useEffect(() => {
-        // Figure our to prevent re-renders on inital load ..
+        // Re-fetches data on location change (strict mode, will fetch twice in dev)
+        // refetch used in context after prop update
         refetch();
-    }, [ loc.search ]);
+    }, [ loc.search, refetch ]);
 
     return (
         <>
