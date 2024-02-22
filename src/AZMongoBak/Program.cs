@@ -32,6 +32,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddMi
 // Background queue
 builder.Services.AddHostedService<QueueMonitorHostedService>();
 builder.Services.AddSingleton<IBackgroundTaskQueue>(x => new BackgroundTaskQueue(200));
+builder.Services.AddHostedService<BackupScheduleService>();
 
 // CORS policy config
 builder.Services.AddCors(options => {
