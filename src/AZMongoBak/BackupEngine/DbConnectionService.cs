@@ -1,7 +1,7 @@
 using AZMongoBak.MongoDb.Collections;
 using MongoDB.Driver;
 
-namespace AZMongoBak.BackupJobs {
+namespace AZMongoBak.BackupEngine {
     public class DbConnectionService {
         private readonly IMongoClient _db_client;
         private readonly ILogger _logger;

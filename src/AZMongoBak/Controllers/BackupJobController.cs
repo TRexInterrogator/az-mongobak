@@ -1,38 +1,39 @@
 using AZMongoBak.BackgroundServices;
+using AZMongoBak.BackupEngine;
 using AZMongoBak.ControllerAuth;
+using AZMongoBak.SharedServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AZMongoBak.Controllers {
     
-    //[Authorize]
-    //[AdminAuth]
+    [Authorize]
+    [AdminAuth]
     [ApiController]
     [Route("api/backupJobs")]
     [Produces("application/json")]
     public class BackupJobController : ControllerBase {
-        private readonly IBackgroundTaskQueue _queue;
+        private readonly BackupProvider _backup_provider;
 
-        public BackupJobController(IBackgroundTaskQueue queue) {
-            this._queue = queue;
+        public BackupJobController(
+            DbService db, 
+            AppConfigService config_service, 
+            ILogger<BackupJobController> logger, 
+            IBackgroundTaskQueue queue) {
+            
+            this._backup_provider = new BackupProvider(db, config_service, logger, queue);
         }
 
 
-        [HttpGet("test")]
-        public async Task<IActionResult> RunTestAsync() {
-            await this._queue.QueueBackgroundWorkItemAsync(this.RunTestAsync);
-            return this.Ok(true);
-        }
-
-
-        private async ValueTask RunTestAsync(CancellationToken token) {
-            var timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
-            Console.WriteLine($"{timestamp} Starting background job");
-
-            await Task.Delay(5000);
-
-            timestamp = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
-            Console.WriteLine($"{timestamp} Job done");
+        /// <summary>
+        /// Manually starty a new backup
+        /// </summary>
+        /// <param name="oid">Backup profile oid</param>
+        /// <returns>202</returns>
+        [HttpGet("startJob")]
+        public async Task<IActionResult> StartJobAsync([FromQuery(Name = "oid")] string oid) {
+            await this._backup_provider.QueueBackupAsync(oid);
+            return this.Accepted();
         }
     }
 }

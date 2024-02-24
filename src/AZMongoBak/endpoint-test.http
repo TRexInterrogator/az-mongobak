@@ -1,1 +1,1 @@
-GET http://localhost:5001/api/backupJobs/test
+GET http://localhost:5001/api/backupJobs/startJob?oid=65c276e78621e988f0931cd1

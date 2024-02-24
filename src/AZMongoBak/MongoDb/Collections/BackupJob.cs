@@ -19,5 +19,14 @@ namespace AZMongoBak.MongoDb.Collections {
         public string output { get; set; } = "";
 
         public BackupJob() {}
+
+        public void AppendOut(string info) {
+            this.output += info + "\n";
+        }
+
+        public void EndJob() {
+            this.date_end = DateTime.UtcNow;
+            this.done = true;
+        }
     }
 }

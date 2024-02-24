@@ -21,8 +21,8 @@ namespace AZMongoBak.MongoDb.Collections {
         public Backup() { }
 
         public Backup(string new_blob_path) {
-            // Note: Local zip path == remote blob path
             this.blob_path = new_blob_path;
+            this.stored = true;
         }
 
 

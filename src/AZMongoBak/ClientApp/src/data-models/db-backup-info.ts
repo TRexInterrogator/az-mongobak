@@ -1,5 +1,6 @@
 import { APIService } from "../auth/api-service";
 import { Backup, IBackup } from "./db-backup";
+import { BackupJob, IBackupJob } from "./db-backup-job";
 
 interface IBackupInfo {
 	oid: string;
@@ -9,6 +10,7 @@ interface IBackupInfo {
 	backups: IBackup[];
 	retention_days: number;
 	date_created: string;
+	jobs: IBackupJob[];
 }
 
 export class BackupInfo implements IBackupInfo {
@@ -20,11 +22,13 @@ export class BackupInfo implements IBackupInfo {
 	public backups: Backup[] = [];
 	public retention_days = 0;
 	public date_created = new Date().toISOString();
+	public jobs: BackupJob[] = [];
 
 	public static CreateInstance(source: IBackupInfo): BackupInfo {
 		const instance = new BackupInfo();
 		Object.assign(instance, source);
         instance.backups = source.backups.map(b => Backup.CreateInstance(b));
+		instance.jobs = source.jobs.map(d => BackupJob.CreateInstance(d));
 		return instance;
 	}
 
