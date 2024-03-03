@@ -25,10 +25,6 @@ namespace AZMongoBak.MongoDb.Collections {
         [BsonElement("date_created")]
         public DateTime date_created { get; set; } = DateTime.UtcNow;
 
-        [BsonElement("jobs")]
-        public List<BackupJob> jobs { get; set; } = new List<BackupJob>();
-
-
 
         public BackupInfo() { }
 

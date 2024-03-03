@@ -2,10 +2,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace AZMongoBak.MongoDb.Collections {
     public class BackupJob {
-        
-        [BsonElement("job_oid")]
-        public string job_oid { get; set; } = Guid.NewGuid().ToString();
-
+    
         [BsonElement("date_start")]
         public DateTime date_start { get; set; } = DateTime.UtcNow;
 

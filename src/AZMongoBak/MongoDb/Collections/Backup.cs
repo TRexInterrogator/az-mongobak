@@ -16,15 +16,12 @@ namespace AZMongoBak.MongoDb.Collections {
         [BsonElement("stored")]
         public bool stored { get; set; } = false;
 
+        [BsonElement("job")]
+        public BackupJob job { get; set; } = new BackupJob();
+
 
 
         public Backup() { }
-
-        public Backup(string new_blob_path) {
-            this.blob_path = new_blob_path;
-            this.stored = true;
-        }
-
 
         public bool HasExpired(int retention_days) {
             var expires = this.date_created.AddDays(retention_days);
