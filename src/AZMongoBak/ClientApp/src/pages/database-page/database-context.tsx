@@ -53,7 +53,7 @@ export const DatabaseContext = (props: TDatabaseContextProps) => {
                         }
 
                         {index === 1 &&
-                            <BackupTab />
+                            <BackupTab {...props} />
                         }
 
                         {index === 2 &&

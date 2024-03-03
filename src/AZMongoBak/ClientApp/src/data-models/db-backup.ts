@@ -22,4 +22,8 @@ export class Backup implements IBackup {
 		instance.job = BackupJob.CreateInstance(source.job);
 		return instance;
 	}
+
+	public ToDateStr(): string {
+		return new Date(Date.parse(this.date_created)).toLocaleString();
+	}
 }
