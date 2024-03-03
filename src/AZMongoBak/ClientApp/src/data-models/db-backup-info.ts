@@ -40,6 +40,12 @@ export class BackupInfo implements IBackupInfo {
 		return this.backups.filter(e => e.stored).length;
 	}
 
+	public ToSortedBackups(): Backup[] {
+		return this.backups.sort((a, b) => {
+			return b.date_created.localeCompare(a.date_created)
+		});
+	}
+
 	/**
 	 * Saves current item to database (creates new if oid empty)
 	 * @param api
@@ -129,5 +135,32 @@ export class BackupInfo implements IBackupInfo {
 		}
 
 		return deleted;
+	}
+
+	/**
+	 * Starts new manual backup
+	 * @param api 
+	 * @returns 
+	 */
+	public async RunBackupAsync(api: APIService): Promise<boolean> {
+
+		let success = false;
+
+		try {
+			if (await api.InitAsync()) {
+				const headers = api.GetHeaders();
+				const url = `${api.BASE}/backupJobs/startJob?oid=${this.oid}`;
+				const request = await fetch(url, { headers: headers });
+
+				if (request.ok) {
+					success = true;
+				}
+			}
+		}
+		catch (err) {
+			console.error("BackupInfo.RunBackupAsync", err);
+		}
+
+		return success;
 	}
 }

@@ -1,7 +1,7 @@
-import { DatabaseIcon } from "@primer/octicons-react";
+import { DatabaseIcon, SyncIcon } from "@primer/octicons-react";
 import { PageTitle } from "../../shared/page-title/page-title";
 import { TDatabasePageData } from "./database-page";
-import { Box, TabNav } from "@primer/react";
+import { Box, Button, TabNav } from "@primer/react";
 import { useState } from "react";
 import { InfoTab } from "./tabs/info-tab/info-tab";
 import { BackupTab } from "./tabs/backup-tab/backup-tab";
@@ -13,7 +13,7 @@ export type TDatabaseContextProps = TDatabasePageData & {
 
 export const DatabaseContext = (props: TDatabaseContextProps) => {
 
-    const { backup_info, connection } = props;
+    const { backup_info, connection, onRefetch } = props;
     const [index, setIndex] = useState(0);
 
     return (
@@ -25,6 +25,14 @@ export const DatabaseContext = (props: TDatabaseContextProps) => {
                         icon={<DatabaseIcon size={24} />}>
                         {backup_info.display_name}
                     </PageTitle>
+
+                    <Box mt={2}>
+                        <Button 
+                            onClick={onRefetch}
+                            leadingIcon={() => <SyncIcon />}>
+                            Refresh
+                        </Button>
+                    </Box>
 
                     <TabNav sx={{ mt: "20px" }}>
                         <TabNav.Link

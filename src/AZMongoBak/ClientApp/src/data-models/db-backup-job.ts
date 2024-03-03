@@ -1,6 +1,5 @@
 
 export interface IBackupJob {
-    job_oid: string;
     date_start: string;
     date_end: string | null;
     done: boolean;
@@ -19,5 +18,13 @@ export class BackupJob implements IBackupJob {
         const instance = new BackupJob();
         Object.assign(instance, source);
         return instance;
+    }
+
+    public ToStartDateStr(): string {
+        return new Date(Date.parse(this.date_start)).toLocaleString();
+    }
+
+    public ToEndDateStr(): string {
+        return this.date_end ? new Date(Date.parse(this.date_end)).toLocaleString() : "-";
     }
 }
