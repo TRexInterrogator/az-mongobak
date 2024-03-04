@@ -15,8 +15,12 @@ namespace AZMongoBak.Controllers {
     public class BackupInfoController : ControllerBase {
         private readonly BackupInfoProvider _info_provider;
 
-        public BackupInfoController(DbService db_service, ILogger<BackupInfoController> logger) {
-            this._info_provider = new BackupInfoProvider(db_service, logger);
+        public BackupInfoController(
+            DbService db_service, 
+            ILogger<BackupInfoController> logger,
+            AppConfigService config_service) {
+
+            this._info_provider = new BackupInfoProvider(db_service, logger, config_service);
         }
 
 

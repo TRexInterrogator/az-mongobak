@@ -1,6 +1,7 @@
 using AZMongoBak.Models;
 using AZMongoBak.MongoDb.Collections;
 using AZMongoBak.SharedServices;
+using Azure.Storage.Blobs;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
@@ -8,10 +9,18 @@ namespace AZMongoBak.MongoDb.Providers {
     public class BackupInfoProvider {
         private readonly DbService _db_service;
         private readonly ILogger _logger;
+        private readonly string _blob_connection;
+        private readonly string _blob_container;
 
-        public BackupInfoProvider(DbService db_service, ILogger logger) {
+        public BackupInfoProvider(
+            DbService db_service, 
+            ILogger logger,
+            AppConfigService config_service) {
+            
             this._db_service = db_service;
             this._logger = logger;
+            this._blob_connection = config_service.settings.AzBlobConnection;
+            this._blob_container = config_service.settings.AzBlobContainer;
         }
 
 
@@ -108,7 +117,14 @@ namespace AZMongoBak.MongoDb.Providers {
                         .FirstOrDefaultAsync();
 
                     if (db_item != null) {
-                        // TODO: Delete remote backup data
+                        // Delete remote backup data
+                        var blob_service_client = new BlobServiceClient(this._blob_connection);
+                        var blob_container = blob_service_client.GetBlobContainerClient(this._blob_container);
+
+                        foreach (var backup in db_item.backups) {
+                            var blob_client = blob_container.GetBlobClient(backup.blob_path);
+                            await blob_client.DeleteAsync();
+                        }
 
                         // Delete db record
                         var res = await this._db_service.BackupInfos.DeleteOneAsync(e => e.oid == oid);
