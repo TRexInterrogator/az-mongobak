@@ -29,6 +29,9 @@ namespace AZMongoBak.BackupEngine {
         }
 
 
+        /// <summary>
+        /// Performs backup action for given backup profile
+        /// </summary>
         public async Task RunBackupAsync() {
 
             // Create new job
@@ -141,6 +144,44 @@ namespace AZMongoBak.BackupEngine {
             }
 
             return blob_name;
+        }
+
+
+        /// <summary>
+        /// Removes all backups exceeding retention time
+        /// </summary>
+        public async Task RemoveExpiredBackupsAsync() {
+
+            try {
+                this._logger.LogInformation($"Backup cleanup job started for: {this._bak_info.display_name}");
+                var blob_service_client = new BlobServiceClient(this._blob_connection);
+                var blob_container = blob_service_client.GetBlobContainerClient(this._blob_container);
+
+                foreach (var backup in this._bak_info.backups) {
+                    if (backup.HasExpired(this._bak_info.retention_days)) {
+                        try {
+                            var blob_client = blob_container.GetBlobClient(backup.blob_path);
+                            await blob_client.DeleteAsync();
+
+                            // Remove from local profile
+                            this._bak_info.backups.Remove(backup);
+                        }
+                        catch (Exception ex) {
+                            this._logger.LogError(EventIds.BackupService, ex, $"Error while deleting blob: {this._bak_info.display_name} -> {backup.blob_path}");
+                        }
+                    }
+                }
+
+                // Save changes to db
+                if (this._db.BackupInfos is not null) {
+                    await this._db.BackupInfos.ReplaceOneAsync(e => e.oid == this._bak_info.oid, this._bak_info);
+                }
+
+                this._logger.LogInformation($"Backup cleanup job finished for: {this._bak_info.display_name}");
+            }
+            catch (Exception ex) {
+                this._logger.LogError(EventIds.BackupService, ex, $"Failed to clean up expired backups for profile: {this._bak_info.oid}");
+            }
         }
     }
 }
