@@ -6,7 +6,7 @@ import { BackupDetails } from "./backup-details";
 
 export const BackupTab = (props: TDatabaseContextProps) => {
     
-    const { onRefetch } = props;
+    const { onRefetch, backup_info } = props;
     const [ backup, setBackup ] = useState<Backup>();
 
     const HandleOnDelete = () => {
@@ -18,6 +18,7 @@ export const BackupTab = (props: TDatabaseContextProps) => {
         <div>
             { backup ?
                 <BackupDetails 
+                    backup_info={backup_info}
                     onDelete={HandleOnDelete}
                     onClose={() => setBackup(undefined)}
                     backup={backup} />

@@ -35,5 +35,21 @@ namespace AZMongoBak.Controllers {
             await this._backup_provider.QueueBackupAsync(oid);
             return this.Accepted();
         }
+
+
+        /// <summary>
+        /// Deletes single backup from backup profile
+        /// </summary>
+        /// <param name="profile_oid">Backup profile oid</param>
+        /// <param name="bak_oid">backup oid</param>
+        /// <returns>204 | 400</returns>
+        [HttpDelete("deleteBak")]
+        public async Task<IActionResult> DeleteBackupAsync(
+            [FromQuery(Name = "profile")] string profile_oid, 
+            [FromQuery(Name = "oid")] string bak_oid) {
+                
+            var deleted = await this._backup_provider.DeleteBackupAsync(profile_oid, bak_oid);
+            return deleted ? this.NoContent() : this.BadRequest();
+        }
     }
 }

@@ -1,3 +1,4 @@
+import { APIService } from "../auth/api-service";
 import { BackupJob, IBackupJob } from "./db-backup-job";
 
 export interface IBackup {
@@ -25,5 +26,33 @@ export class Backup implements IBackup {
 
 	public ToDateStr(): string {
 		return new Date(Date.parse(this.date_created)).toLocaleString();
+	}
+
+	/**
+	 * Deletes this backup and remote data
+	 * @param profile_oid 
+	 * @param api 
+	 * @returns 
+	 */
+	public async DeleteAsync(profile_oid: string, api: APIService): Promise<boolean> {
+
+		let deleted = false;
+
+		try {
+			if (await api.InitAsync()) {
+				const url = `${api.BASE}/backupJobs/deleteBak?profile=${profile_oid}&oid=${this.oid}`;
+				const headers = api.GetHeaders();
+				const request = await fetch(url, { headers: headers, method: "DELETE" });
+
+				if (request.ok) {
+					deleted = true;
+				}
+			}
+		}
+		catch (err) {
+			console.error("Backup.DeleteAsync", err);
+		}
+
+		return deleted;
 	}
 }
