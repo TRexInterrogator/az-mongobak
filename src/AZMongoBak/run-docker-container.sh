@@ -1,0 +1,1 @@
+docker run -d -p 3000:8080 --name azmongobak az-mongobak

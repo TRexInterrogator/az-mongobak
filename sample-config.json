@@ -1,0 +1,35 @@
+{
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft": "Warning",
+            "Microsoft.Hosting.Lifetime": "Information"
+        }
+    },
+    "AllowedHosts": "*",
+    "AzureAd": {
+        "Instance": "",
+        "ClientId": "",
+        "TenantId": "",
+        "Audience": ""
+    },
+    "Kestrel": {
+        "Endpoints": {
+            "Http": {
+                "Url": "http://localhost:5001"
+            }
+        }
+    },    
+    "AppConfig": {
+        "SyncToken": "",
+        "UserGroupOid": "",
+        "CorsAllowedOrigins": "http://localhost:3000",
+        "AzBlobConnection": "",
+        "AzBlobContainer": "",
+        "MongoDbConnection": "",
+        "MongoDbDatabase": "",
+        "AppClientId": "",
+        "AppSecret": "",
+        "AzTenantId": ""
+    }
+}
